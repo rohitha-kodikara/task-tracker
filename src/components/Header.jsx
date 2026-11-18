@@ -1,0 +1,19 @@
+import TaskModal from "./TaskModal";
+
+const Header = () => {
+  return (
+    <header className="flex items-center justify-between gap-4">
+      <div>
+        <h1 className="bg-gradient-to-r from-indigo-200 via-violet-200 to-fuchsia-200 bg-clip-text text-2xl font-semibold tracking-tight text-transparent">
+          Task Tracker
+        </h1>
+        <p className="mt-1 text-sm text-slate-400">
+          Plan, track and finish work with your team
+        </p>
+      </div>
+      <TaskModal />
+    </header>
+  );
+};
+
+export default Header;
