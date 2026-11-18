@@ -1,5 +1,6 @@
 import TaskArchive from "@/components/shared/TaskArchive";
 import TaskDelete from "@/components/shared/TaskDelete";
+import TaskDeleteDialog from "@/components/shared/TaskDeleteDialog";
 import TaskStarred from "@/components/shared/TaskStarred";
 import { Copy, Pencil } from "lucide-react";
 
@@ -22,7 +23,8 @@ const TaskToolbar = ({ task }) => {
         <Copy className="h-4 w-4" />
       </button>
       <TaskArchive className=" border border-slate-300/70 bg-white/85 p-1.5 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 active:translate-y-px" />
-      <TaskDelete className="border border-slate-300/70 bg-white/85 p-1.5 shadow-sm hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700 active:translate-y-px" />
+      {/* <TaskDelete className="border border-slate-300/70 bg-white/85 p-1.5 shadow-sm hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700 active:translate-y-px" /> */}
+      <TaskDeleteDialog className="border border-slate-300/70 bg-white/85 p-1.5 shadow-sm transition hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700 active:translate-y-px" />
     </div>
   );
 };

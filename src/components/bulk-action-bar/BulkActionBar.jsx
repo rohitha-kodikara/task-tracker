@@ -1,7 +1,8 @@
 import { X } from "lucide-react";
 import StatusOptions from "../shared/StatusOptions";
 import TaskArchive from "../shared/TaskArchive";
-import TaskDelete from "../shared/TaskDelete";
+// import TaskDelete from "../shared/TaskDelete";
+import TaskDeleteDialog from "../shared/TaskDeleteDialog";
 
 const BulkActionBar = () => {
   return (
@@ -16,9 +17,12 @@ const BulkActionBar = () => {
         <TaskArchive className="flex items-center gap-1 rounded-lg bg-white/15 px-3 py-1 hover:bg-white/25 ">
           Archive
         </TaskArchive>
-        <TaskDelete className="flex items-center gap-1 bg-rose-500 px-3 py-1 hover:bg-rose-600">
+        {/* <TaskDelete className="flex items-center gap-1 bg-rose-500 px-3 py-1 hover:bg-rose-600">
           Delete
-        </TaskDelete>
+        </TaskDelete> */}
+        <TaskDeleteDialog className="flex items-center gap-1 bg-rose-500 px-3 py-1 hover:bg-rose-600">
+          Delete
+        </TaskDeleteDialog>
         <button className="rounded-lg p-1 transition hover:bg-white/20">
           <X className="h-4 w-4" />
         </button>
