@@ -37,9 +37,14 @@ const Task = ({ task }) => {
           <StatusOption
             variant="dropdown"
             defaultValue={task.status || "In Progress"}
+            className="rounded-xl"
           />
 
-          <PriorityOptions variant="dropdown" defaultValue={task.priority} />
+          <PriorityOptions
+            variant="dropdown"
+            defaultValue={task.priority}
+            className="rounded-xl"
+          />
           <span className="flex items-center gap-1 font-medium text-slate-700">
             <User className="h-3 w-3" />
             {task.assignee}

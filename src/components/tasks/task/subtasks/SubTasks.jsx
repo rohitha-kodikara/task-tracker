@@ -10,7 +10,7 @@ const SubTasks = ({ task }) => {
           { title: "Increase timeout", done: true },
           { title: "Add retry logic", done: false },
         ].map((s) => (
-          <IndividualSubTask s={s} />
+          <IndividualSubTask key={s.title} s={s} />
         ))}
 
         <SubTaskForm />

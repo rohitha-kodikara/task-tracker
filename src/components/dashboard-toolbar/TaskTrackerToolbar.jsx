@@ -28,7 +28,10 @@ const TaskTrackerToolbar = () => {
           <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-sm bg-white/80 px-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
             Priority
           </span>
-          <PriorityOptions variant="chips" />
+          <PriorityOptions
+            variant="chips"
+            className="rounded-lg border border-slate-300 bg-white/60 p-1"
+          />
         </div>
         <div className="relative flex flex-wrap items-center gap-2 rounded-xl border border-slate-300 px-1 pb-1 pt-3">
           <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-sm bg-white/80 px-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
