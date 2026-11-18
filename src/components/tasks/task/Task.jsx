@@ -7,8 +7,18 @@ import TaskDue from "./TaskDue";
 import TaskTag from "./TaskTag";
 import TaskProgress from "./TaskProgress";
 import SubTasks from "./subtasks/SubTasks";
+import { useState } from "react";
+import SubTaskExpander from "./SubTaskExpander";
 
 const Task = ({ task }) => {
+  const [subTasksOpen, setSubTasksOpen] = useState(false);
+
+  function handleSubtasksExpanderClick(taskId) {
+    const isIdMatch = task.id === taskId;
+    if (isIdMatch) {
+      setSubTasksOpen((prev) => !prev);
+    }
+  }
   return (
     <>
       <input
@@ -40,10 +50,27 @@ const Task = ({ task }) => {
           ))}
         </div>
 
-        <TaskProgress task={task} />
+        <div className="flex items-center gap-2">
+          <div className="min-w-0 flex-1">
+            <TaskProgress task={task} />
+          </div>
+          <div className="shrink-0">
+            <SubTaskExpander
+              handleSubtasksExpanderClick={handleSubtasksExpanderClick}
+              task={task}
+            />
+          </div>
+        </div>
 
         {/* Expanded subtask panel design (show it when a row is expanded) */}
-        <SubTasks task={task} />
+        {/* {subTasksOpen && <SubTasks task={task} />} */}
+        <div
+          className={`grid transition-[grid-template-rows] duration-300 ease-out ${subTasksOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+        >
+          <div className="min-h-0 overflow-hidden">
+            <SubTasks task={task} />
+          </div>
+        </div>
       </div>
     </>
   );

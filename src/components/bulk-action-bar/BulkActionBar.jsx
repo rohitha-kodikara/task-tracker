@@ -5,7 +5,7 @@ import TaskDelete from "../shared/TaskDelete";
 
 const BulkActionBar = () => {
   return (
-    <div className="glass flex flex-wrap items-center justify-between gap-2 rounded-xl bg-gradient-to-r from-indigo-600/90 to-violet-600/90 px-4 py-2.5 text-sm text-white">
+    <div className="glass flex flex-wrap items-center justify-between gap-2 rounded-xl bg-gradient-to-r bg-blue-900 px-4 py-2.5 text-sm text-white">
       <span className="font-medium">1 selected</span>
       <div className="flex items-center gap-2">
         <StatusOptions

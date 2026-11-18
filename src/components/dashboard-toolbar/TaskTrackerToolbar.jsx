@@ -18,18 +18,31 @@ const TaskTrackerToolbar = () => {
       </div>
 
       <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
-        <StatusOptions variant="chips" />
-        <span className="h-4 w-px bg-slate-200" />
-        <PriorityOptions variant="chips" />
-        <span className="h-4 w-px bg-slate-200" />
-        <TaskStarred
-          variant="pill"
-          label="Starred"
-          // onClick={() => setFilter("starred")}
-        />
-        <TaskArchive className="flex items-center gap-1 rounded-xl bg-white border-blue-800 border-1 text-blue-900 px-3 py-1 hover:bg-white/25 ">
-          Archive
-        </TaskArchive>
+        <div className="relative flex flex-wrap items-center gap-2 rounded-xl border border-slate-300 px-1 pb-1 pt-3">
+          <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-sm bg-white/80 px-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            Status
+          </span>
+          <StatusOptions variant="chips" />
+        </div>
+        <div className="relative flex flex-wrap items-center gap-2 rounded-xl border border-slate-300 px-1 pb-1 pt-3">
+          <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-sm bg-white/80 px-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            Priority
+          </span>
+          <PriorityOptions variant="chips" />
+        </div>
+        <div className="relative flex flex-wrap items-center gap-2 rounded-xl border border-slate-300 px-1 pb-1 pt-3">
+          <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-sm bg-white/80 px-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            Organize
+          </span>
+          <TaskStarred
+            variant="pill"
+            label="Starred"
+            // onClick={() => setFilter("starred")}
+          />
+          <TaskArchive className="flex items-center gap-1 rounded-xl bg-white border-blue-800 border-1 text-blue-900 px-3 py-1 hover:bg-white/25 ">
+            Archive
+          </TaskArchive>
+        </div>
         <Reset />
       </div>
     </div>

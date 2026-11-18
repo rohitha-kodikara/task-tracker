@@ -4,19 +4,17 @@ import SubTaskForm from "./SubTaskForm";
 const SubTasks = ({ task }) => {
   return (
     <>
-      {task.id === 1 && (
-        <div className={`space-y-2 rounded-xl p-3 ${task.panel}`}>
-          {[
-            { title: "Reproduce issue", done: true },
-            { title: "Increase timeout", done: true },
-            { title: "Add retry logic", done: false },
-          ].map((s) => (
-            <IndividualSubTask s={s} />
-          ))}
+      <div className={`space-y-2 rounded-xl p-3 ${task.panel}`}>
+        {[
+          { title: "Reproduce issue", done: true },
+          { title: "Increase timeout", done: true },
+          { title: "Add retry logic", done: false },
+        ].map((s) => (
+          <IndividualSubTask s={s} />
+        ))}
 
-          <SubTaskForm />
-        </div>
-      )}
+        <SubTaskForm />
+      </div>
     </>
   );
 };
