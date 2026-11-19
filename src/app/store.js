@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import bulkTaskReducer from "@/features/bulk-tasks/BulkTaskSlice";
+import bulkTaskReducer from "@/features/tasks/TaskSlice";
 
 const store = configureStore({
   reducer: {

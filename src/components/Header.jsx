@@ -11,7 +11,10 @@ const Header = () => {
           Plan, track and finish work with your team
         </p>
       </div>
-      <TaskModal />
+      <TaskModal
+        bgColor="border-slate-300/70 bg-white/85 "
+        className="text-gray-800"
+      />
     </header>
   );
 };

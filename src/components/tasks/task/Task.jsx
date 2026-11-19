@@ -49,7 +49,7 @@ const Task = ({ task }) => {
             <User className="h-3 w-3" />
             {task.assignee}
           </span>
-          {task.due && <TaskDue task={task} />}
+          {task.dueDate && <TaskDue task={task} />}
           {task.tags.map((tag) => (
             <TaskTag key={tag} tag={tag} />
           ))}
