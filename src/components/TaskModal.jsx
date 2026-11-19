@@ -22,8 +22,8 @@ const TaskModal = () => {
   const [description, setDescription] = useState("");
   const [assignee, setAssignee] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [status, setStatus] = useState("To Do");
-  const [priority, setPriority] = useState("Medium");
+  const [status, setStatus] = useState("");
+  const [priority, setPriority] = useState("");
   const [tags, setTags] = useState("");
 
   //controll dialog box state
@@ -41,7 +41,6 @@ const TaskModal = () => {
   });
 
   const dispatch = useDispatch();
-  // const tasks = useSelector((state) => state.bulkTasks.tasks);
 
   // Validation function
   function validateTaskForm() {

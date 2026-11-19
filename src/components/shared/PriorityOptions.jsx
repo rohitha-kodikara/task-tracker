@@ -1,11 +1,38 @@
 import { priorityFilters } from "../../data/data";
 import PriorityChip from "./PriorityChip";
 
-const PriorityOptions = ({ variant, defaultValue, className }) => {
+const PriorityOptions = ({
+  variant,
+  defaultValue,
+  className,
+  value,
+  onChange,
+}) => {
   if (variant === "dropdown") {
+    if (value !== undefined) {
+      return (
+        <select
+          value={value}
+          onChange={onChange}
+          className={`cursor-pointer border border-slate-200 bg-white/90 px-2 py-1 font-semibold shadow-sm transition hover:brightness-95 ${className}`}
+        >
+          {priorityFilters.map((priority) => (
+            <option
+              key={priority.label}
+              value={priority.label}
+              className={`font-semibold ${priority.textColor}`}
+            >
+              {priority.label}
+            </option>
+          ))}
+        </select>
+      );
+    }
+
     return (
       <select
         defaultValue={defaultValue}
+        onChange={onChange}
         className={`cursor-pointer border border-slate-200 bg-white/90 px-2 py-1 font-semibold shadow-sm transition hover:brightness-95 ${className}`}
       >
         {priorityFilters.map((priority) => (

@@ -19,11 +19,14 @@ const bulkTaskSlice = createSlice({
         return {
           payload: {
             id: nanoid(),
-            status: "in_progress", // default
-            priority: "medium", // default
+            // status: "in_progress", // default
+            // priority: "medium", // default
             done: false, // default
+            total: 0, // default
+            overdue: false, // default
             starred: false, // default
             archived: false, // default
+            selected: false, // default
             subtasks: [], // default
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
