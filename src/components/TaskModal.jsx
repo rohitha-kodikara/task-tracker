@@ -9,105 +9,38 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import StatusOptions from "./shared/StatusOptions";
-import { useState } from "react";
 import PriorityOptions from "./shared/PriorityOptions";
-import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "@/features/tasks/TaskSlice";
+import useTaskModal from "./hooks/useTaskModal";
 
 const field =
   "w-full  border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 transition focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20";
 
 const TaskModal = ({ mode, className, bgColor, task }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [assignee, setAssignee] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [status, setStatus] = useState("To Do");
-  const [priority, setPriority] = useState("Medium");
-  const [tags, setTags] = useState("");
-
-  //controll dialog box state
-  const [open, setOpen] = useState(false);
-
-  //to display validation errors
-  const [taskErrors, setTaskErrors] = useState({
-    title: "",
-    description: "",
-    assignee: "",
-    dueDate: "",
-    status: "",
-    priority: "",
-    tags: "",
-  });
-
-  const dispatch = useDispatch();
-
-  // Validation function
-  function validateTaskForm() {
-    let errors = {};
-    if (!title.trim()) {
-      errors.title = "Title is required";
-    }
-    if (!description.trim()) {
-      errors.description = "Description is required";
-    }
-    if (!assignee.trim()) {
-      errors.assignee = "Assignee is required";
-    }
-    if (!dueDate.trim()) {
-      errors.dueDate = "Due date is required";
-    }
-    if (!status.trim()) {
-      errors.status = "Status is required";
-    }
-    if (!priority.trim()) {
-      errors.priority = "Priority is required";
-    }
-    if (!tags.length) {
-      errors.tags = "At least one tag is required";
-    }
-
-    setTaskErrors(errors);
-    return Object.keys(errors).length === 0;
-  }
-
-  //Clear error fields when user starts typing
-  function clearError(field) {
-    setTaskErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
-  }
-
-  const isEdit = mode === "edit";
-
-  function handleTaskSubmit(e) {
-    e.preventDefault();
-    if (!validateTaskForm()) {
-      setOpen(true);
-      return;
-    }
-    // Handle form submission logic here
-    const newTask = {
-      title,
-      description,
-      assignee,
-      dueDate,
-      status,
-      priority,
-      tags: tags.split(",").map((tag) => tag.trim()),
-    };
-
-    dispatch(addTask(newTask));
-    setOpen(false);
-    setTitle("");
-    setDescription("");
-    setAssignee("");
-    setDueDate("");
-    setStatus("To Do");
-    setPriority("Medium");
-    setTags("");
-  }
+  const {
+    open,
+    handleOpenChange,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    assignee,
+    setAssignee,
+    dueDate,
+    setDueDate,
+    status,
+    setStatus,
+    priority,
+    setPriority,
+    tags,
+    setTags,
+    taskErrors,
+    handleTaskSubmit,
+    clearError,
+    isEdit,
+  } = useTaskModal({ mode, task });
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger
         render={
           <Button

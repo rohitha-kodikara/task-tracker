@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "nanoid";
+import calculateDueDateFields from "../../helpers/calculateDueDateFields";
 
 const initialState = {
   tasks: [],
@@ -16,24 +17,7 @@ const bulkTaskSlice = createSlice({
     //add a task
     addTask: {
       prepare(formData) {
-        let daysUntilDue = null;
-        let overdue = false;
-        // Calculate daysUntilDue and overdue status if dueDate is provided
-        if (formData.dueDate) {
-          const today = new Date();
-          const dueDate = new Date(`${formData.dueDate}T00:00:00`);
-
-          today.setHours(0, 0, 0, 0);
-          dueDate.setHours(0, 0, 0, 0);
-
-          const millisecondsPerDay = 1000 * 60 * 60 * 24;
-
-          daysUntilDue = Math.round(
-            (dueDate.getTime() - today.getTime()) / millisecondsPerDay,
-          );
-
-          overdue = daysUntilDue < 0;
-        }
+        const dueDateFields = calculateDueDateFields(formData.dueDate);
 
         return {
           payload: {
@@ -41,8 +25,7 @@ const bulkTaskSlice = createSlice({
             done: false,
             total: 0,
             completed: 0,
-            overdue,
-            daysUntilDue,
+            ...dueDateFields,
             dueDate: formData.dueDate || null,
             starred: false,
             archived: false,
@@ -62,14 +45,26 @@ const bulkTaskSlice = createSlice({
     //update a task
     updateTask(state, { payload }) {
       const { id, ...changes } = payload;
-      const task = state.tasks.find((task) => task.id === id);
-      if (task) {
-        Object.assign(task, changes);
-        task.updatedAt = new Date().toISOString();
+      const task = state.tasks.find((item) => item.id === id);
+
+      if (!task) {
+        return;
       }
+
+      if (Object.prototype.hasOwnProperty.call(changes, "dueDate")) {
+        const dueDateFields = calculateDueDateFields(changes.dueDate);
+
+        Object.assign(task, changes, dueDateFields, {
+          dueDate: changes.dueDate || null,
+        });
+      } else {
+        Object.assign(task, changes);
+      }
+
+      task.updatedAt = new Date().toISOString();
     },
   },
 });
 
-export const { addTask } = bulkTaskSlice.actions;
+export const { addTask, updateTask } = bulkTaskSlice.actions;
 export default bulkTaskSlice.reducer;
