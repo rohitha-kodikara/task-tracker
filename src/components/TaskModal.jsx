@@ -25,7 +25,7 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
     handleTaskSubmit,
     clearError,
     isEdit,
-  } = useTasks({ task, mode });
+  } = useTasks();
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>

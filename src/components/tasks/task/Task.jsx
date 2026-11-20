@@ -11,12 +11,16 @@ import { useState } from "react";
 import SubTaskExpander from "./SubTaskExpander";
 
 import useTasks from "../../taskcontext/useTasks";
+import { useDispatch } from "react-redux";
+import {
+  updateTaskPriority,
+  updateTaskStatus,
+} from "@/features/tasks/TaskSlice";
 
 const Task = ({ task }) => {
   const [subTasksOpen, setSubTasksOpen] = useState(false);
   const { formData, setFormData } = useTasks({ task, mode: "edit" });
-
-  console.log(formData);
+  const dispatch = useDispatch();
   function handleSubtasksExpanderClick(taskId) {
     const isIdMatch = task.id === taskId;
     if (isIdMatch) {
@@ -44,7 +48,12 @@ const Task = ({ task }) => {
           <StatusOption
             value={task.status}
             onChange={(e) => {
-              setFormData({ ...formData, status: e.target.value });
+              dispatch(
+                updateTaskStatus({
+                  id: task.id,
+                  status: e.target.value,
+                }),
+              );
             }}
             variant="dropdown"
             className="rounded-xl"
@@ -52,8 +61,16 @@ const Task = ({ task }) => {
           />
 
           <PriorityOptions
+            value={task.priority}
+            onChange={(e) => {
+              dispatch(
+                updateTaskPriority({
+                  id: task.id,
+                  priority: e.target.value,
+                }),
+              );
+            }}
             variant="dropdown"
-            defaultValue={task.priority}
             className="rounded-xl"
           />
           <span className="flex items-center gap-1 font-medium text-slate-700">

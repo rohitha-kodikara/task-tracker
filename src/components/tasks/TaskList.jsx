@@ -1,10 +1,6 @@
-// import { tasks } from "../../data/data";
-import { useSelector } from "react-redux";
 import Task from "./task/Task";
 
-const TaskList = () => {
-  const tasks = useSelector((state) => state.bulkTasks.tasks);
-
+const TaskList = ({ tasks }) => {
   return (
     <div className="space-y-3">
       {tasks.map((task) => (

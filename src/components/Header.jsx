@@ -1,4 +1,4 @@
-import TaskModal from "./TaskModal";
+import TaskModal from "./task-modal/TaskModal";
 
 const Header = () => {
   return (
@@ -12,6 +12,7 @@ const Header = () => {
         </p>
       </div>
       <TaskModal
+        mode="create"
         bgColor="border-slate-300/70 bg-white/85 "
         className="text-gray-800"
       />

@@ -9,18 +9,39 @@ import TaskSelectionHeader from "../components/TaskSelectionHeader";
 import { useSelector } from "react-redux";
 
 import { TaskProvider } from "./taskcontext/TaskProvider";
+import { useSearchParams } from "react-router-dom";
 
 const TaskTrackerMain = () => {
   const tasks = useSelector((state) => state.bulkTasks.tasks);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  //form fields
-  // const [title, setTitle] = useState("");
-  // const [description, setDescription] = useState("");
-  // const [assignee, setAssignee] = useState( "");
-  // const [dueDate, setDueDate] = useState("");
-  // const [status, setStatus] = useState("In Progress");
-  // const [priority, setPriority] = useState("Medium");
-  // const [tags, setTags] = useState("");
+  const searchTask = searchParams.get("search") || "";
+  const assignee = searchParams.get("assignee") || "";
+
+  function updateSearchParams(key, value) {
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    if (value === "" || value === null) {
+      newSearchParams.delete(key);
+    } else {
+      newSearchParams.set(key, value);
+    }
+
+    setSearchParams(newSearchParams);
+  }
+
+  const filteredTasks = tasks.filter((task) => {
+    const query = searchTask.toLowerCase();
+
+    const matchSearches =
+      task.title.toLowerCase().includes(query) ||
+      task.description.toLowerCase().includes(query) ||
+      task.tags.some((tag) => tag.toLowerCase().includes(query));
+
+    const matchAssignee = task.assignee === assignee || "All";
+
+    return matchSearches && matchAssignee;
+  });
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-slate-900">
@@ -34,7 +55,11 @@ const TaskTrackerMain = () => {
           <StatisticsList />
 
           {/* Toolbar: search, assignee, sort, filter chips */}
-          <TaskTrackerToolbar />
+          <TaskTrackerToolbar
+            searchTask={searchTask}
+            assignee={assignee}
+            updateSearchParams={updateSearchParams}
+          />
 
           {/* Bulk action bar */}
           <BulkActionBar />
@@ -43,7 +68,7 @@ const TaskTrackerMain = () => {
           <TaskSelectionHeader tasks={tasks} />
 
           {/* Task list */}
-          <TaskList />
+          <TaskList tasks={filteredTasks} />
         </TaskProvider>
       </div>
     </div>

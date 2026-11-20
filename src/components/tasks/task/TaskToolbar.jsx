@@ -1,9 +1,8 @@
 import TaskArchive from "@/components/shared/TaskArchive";
-import TaskDelete from "@/components/shared/TaskDelete";
 import TaskDeleteDialog from "@/components/shared/TaskDeleteDialog";
 import TaskStarred from "@/components/shared/TaskStarred";
-import TaskModal from "@/components/TaskModal";
-import { Copy, Pencil } from "lucide-react";
+import TaskModal from "../../task-modal/TaskModal";
+import { Copy } from "lucide-react";
 
 const TaskToolbar = ({ task }) => {
   return (

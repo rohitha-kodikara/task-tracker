@@ -45,7 +45,7 @@ const bulkTaskSlice = createSlice({
     },
     //update a task
     updateTask(state, { payload }) {
-      const { id, ...changes } = payload;
+      const { id, dueDate, ...changes } = payload;
       const task = state.tasks.find((item) => item.id === id);
 
       if (!task) {
@@ -53,6 +53,18 @@ const bulkTaskSlice = createSlice({
       }
 
       Object.assign(task, changes);
+
+      if (dueDate) {
+        const dueDateFields = calculateDueDateFields(dueDate);
+
+        task.dueDate = dueDate;
+        task.daysUntilDue = dueDateFields.daysUntilDue;
+        task.overdue = dueDateFields.overdue;
+      } else {
+        task.dueDate = null;
+        task.daysUntilDue = null;
+        task.overdue = false;
+      }
 
       task.updatedAt = new Date().toISOString();
     },
@@ -69,8 +81,21 @@ const bulkTaskSlice = createSlice({
       task.status = status;
       task.updatedAt = new Date().toISOString();
     },
+    //update task priority
+    updateTaskPriority(state, { payload }) {
+      const { id, priority } = payload;
+      const task = state.tasks.find((item) => item.id === id);
+
+      if (!task) {
+        return;
+      }
+
+      task.priority = priority;
+      task.updatedAt = new Date().toISOString();
+    },
   },
 });
 
-export const { addTask, updateTask, updateTaskStatus } = bulkTaskSlice.actions;
+export const { addTask, updateTask, updateTaskStatus, updateTaskPriority } =
+  bulkTaskSlice.actions;
 export default bulkTaskSlice.reducer;

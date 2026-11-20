@@ -1,5 +1,5 @@
 import { addTask, updateTask } from "@/features/tasks/TaskSlice";
-import React, { createContext, useState } from "react";
+import { createContext, useState } from "react";
 import { useDispatch } from "react-redux";
 
 const TaskContext = createContext();

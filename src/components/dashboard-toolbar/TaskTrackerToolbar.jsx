@@ -8,12 +8,18 @@ import StatusOptions from "../shared/StatusOptions";
 import TaskArchive from "../shared/TaskArchive";
 import PriorityOptions from "../shared/PriorityOptions";
 
-const TaskTrackerToolbar = () => {
+const TaskTrackerToolbar = ({ searchTask, updateSearchParams, assignee }) => {
   return (
     <div className="glass space-y-4 rounded-2xl bg-gradient-to-br from-white/60 via-white/45 to-slate-100/40 p-4">
       <div className="flex flex-col gap-3 md:flex-row">
-        <TaskSearch />
-        <AssigneeFilter />
+        <TaskSearch
+          value={searchTask}
+          updateSearchParams={updateSearchParams}
+        />
+        <AssigneeFilter
+          value={assignee}
+          updateSearchParams={updateSearchParams}
+        />
         <TaskSorter />
       </div>
 
