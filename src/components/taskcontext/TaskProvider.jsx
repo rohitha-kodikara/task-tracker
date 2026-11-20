@@ -1,15 +1,19 @@
 import { addTask, updateTask } from "@/features/tasks/TaskSlice";
-import { useState } from "react";
+import React, { createContext, useState } from "react";
 import { useDispatch } from "react-redux";
 
-const useTaskModal = ({ task, mode }) => {
-  const [title, setTitle] = useState(task?.title ?? "");
-  const [description, setDescription] = useState(task?.description ?? "");
-  const [assignee, setAssignee] = useState(task?.assignee ?? "");
-  const [dueDate, setDueDate] = useState(task?.dueDate ?? "");
-  const [status, setStatus] = useState(task?.status ?? "In Progress");
-  const [priority, setPriority] = useState(task?.priority ?? "Medium");
-  const [tags, setTags] = useState(task?.tags?.join(", ") ?? "");
+const TaskContext = createContext();
+
+const TaskProvider = ({ children, task, mode }) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    assignee: "",
+    dueDate: "",
+    status: "In Progress",
+    priority: "Medium",
+    tags: "",
+  });
 
   //controll dialog box state
   const [open, setOpen] = useState(false);
@@ -30,25 +34,25 @@ const useTaskModal = ({ task, mode }) => {
   // Validation function
   function validateTaskForm() {
     let errors = {};
-    if (!title.trim()) {
+    if (!formData.title.trim()) {
       errors.title = "Title is required";
     }
-    if (!description.trim()) {
+    if (!formData.description.trim()) {
       errors.description = "Description is required";
     }
-    if (!assignee.trim()) {
+    if (!formData.assignee.trim()) {
       errors.assignee = "Assignee is required";
     }
-    if (!dueDate.trim()) {
+    if (!formData.dueDate.trim()) {
       errors.dueDate = "Due date is required";
     }
-    if (!status.trim()) {
+    if (!formData.status.trim()) {
       errors.status = "Status is required";
     }
-    if (!priority.trim()) {
+    if (!formData.priority.trim()) {
       errors.priority = "Priority is required";
     }
-    if (!tags.length) {
+    if (!formData.tags.length) {
       errors.tags = "At least one tag is required";
     }
 
@@ -68,32 +72,26 @@ const useTaskModal = ({ task, mode }) => {
   // preventing stale values or previously cancelled edits from appearing.
   function resetFormFromTask() {
     if (isEdit && task) {
-      setTitle(task.title ?? "");
-      setDescription(task.description ?? "");
-      setAssignee(task.assignee ?? "");
-      setDueDate(task.dueDate ?? "");
-      setStatus(task.status ?? "In Progress");
-      setPriority(task.priority ?? "Medium");
-      setTags(task.tags?.join(", ") ?? "");
+      setFormData({
+        title: task.title ?? "",
+        description: task.description ?? "",
+        assignee: task.assignee ?? "",
+        dueDate: task.dueDate ?? "",
+        status: task.status ?? "In Progress",
+        priority: task.priority ?? "Medium",
+        tags: task.tags?.join(", ") ?? "",
+      });
     } else {
-      setTitle("");
-      setDescription("");
-      setAssignee("");
-      setDueDate("");
-      setStatus("To Do");
-      setPriority("Medium");
-      setTags("");
+      setFormData({
+        title: "",
+        description: "",
+        assignee: "",
+        dueDate: "",
+        status: "To Do",
+        priority: "Medium",
+        tags: "",
+      });
     }
-
-    setTaskErrors({
-      title: "",
-      description: "",
-      assignee: "",
-      dueDate: "",
-      status: "",
-      priority: "",
-      tags: "",
-    });
   }
 
   function handleOpenChange(nextOpen) {
@@ -111,45 +109,39 @@ const useTaskModal = ({ task, mode }) => {
     }
     // Handle form submission logic here
     const newTask = {
-      title,
-      description,
-      assignee,
-      dueDate,
-      status,
-      priority,
-      tags: tags.split(",").map((tag) => tag.trim()),
+      title: formData.title,
+      description: formData.description,
+      assignee: formData.assignee,
+      dueDate: formData.dueDate,
+      status: formData.status,
+      priority: formData.priority,
+      tags: formData.tags.split(",").map((tag) => tag.trim()),
     };
     if (isEdit) {
       dispatch(updateTask({ id: task.id, ...newTask }));
     } else {
       dispatch(addTask(newTask));
     }
-
     setOpen(false);
   }
 
-  return {
-    open,
-    handleOpenChange,
-    title,
-    setTitle,
-    description,
-    setDescription,
-    assignee,
-    setAssignee,
-    dueDate,
-    setDueDate,
-    status,
-    setStatus,
-    priority,
-    setPriority,
-    tags,
-    setTags,
-    taskErrors,
-    handleTaskSubmit,
-    clearError,
-    isEdit,
-  };
+  return (
+    <TaskContext.Provider
+      value={{
+        formData,
+        handleOpenChange,
+        handleTaskSubmit,
+        clearError,
+        isEdit,
+        taskErrors,
+        setFormData,
+        open,
+        setOpen,
+      }}
+    >
+      {children}
+    </TaskContext.Provider>
+  );
 };
 
-export default useTaskModal;
+export { TaskProvider, TaskContext };

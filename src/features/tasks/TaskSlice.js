@@ -25,6 +25,7 @@ const bulkTaskSlice = createSlice({
             done: false,
             total: 0,
             completed: 0,
+            status: formData.status ?? "To Do",
             ...dueDateFields,
             dueDate: formData.dueDate || null,
             starred: false,
@@ -51,20 +52,25 @@ const bulkTaskSlice = createSlice({
         return;
       }
 
-      if (Object.prototype.hasOwnProperty.call(changes, "dueDate")) {
-        const dueDateFields = calculateDueDateFields(changes.dueDate);
+      Object.assign(task, changes);
 
-        Object.assign(task, changes, dueDateFields, {
-          dueDate: changes.dueDate || null,
-        });
-      } else {
-        Object.assign(task, changes);
+      task.updatedAt = new Date().toISOString();
+    },
+
+    //update task status
+    updateTaskStatus(state, { payload }) {
+      const { id, status } = payload;
+      const task = state.tasks.find((item) => item.id === id);
+
+      if (!task) {
+        return;
       }
 
+      task.status = status;
       task.updatedAt = new Date().toISOString();
     },
   },
 });
 
-export const { addTask, updateTask } = bulkTaskSlice.actions;
+export const { addTask, updateTask, updateTaskStatus } = bulkTaskSlice.actions;
 export default bulkTaskSlice.reducer;

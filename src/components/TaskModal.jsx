@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import StatusOptions from "./shared/StatusOptions";
 import PriorityOptions from "./shared/PriorityOptions";
-import useTaskModal from "./hooks/useTaskModal";
+import useTasks from "./taskcontext/useTasks";
 
 const field =
   "w-full  border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 transition focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20";
@@ -19,25 +19,13 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
   const {
     open,
     handleOpenChange,
-    title,
-    setTitle,
-    description,
-    setDescription,
-    assignee,
-    setAssignee,
-    dueDate,
-    setDueDate,
-    status,
-    setStatus,
-    priority,
-    setPriority,
-    tags,
-    setTags,
+    formData,
+    setFormData,
     taskErrors,
     handleTaskSubmit,
     clearError,
     isEdit,
-  } = useTaskModal({ mode, task });
+  } = useTasks({ task, mode });
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -81,9 +69,9 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
               <input
                 className={`${field} rounded-lg`}
                 placeholder="Title *"
-                value={title}
+                value={formData.title}
                 onChange={(e) => {
-                  setTitle(e.target.value);
+                  setFormData({ ...formData, title: e.target.value });
                   clearError("title");
                 }}
               />
@@ -98,9 +86,9 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
                 className={`rounded-lg ${field}`}
                 rows={3}
                 placeholder="Description"
-                value={description}
+                value={formData.description}
                 onChange={(e) => {
-                  setDescription(e.target.value);
+                  setFormData({ ...formData, description: e.target.value });
                   clearError("description");
                 }}
               />
@@ -114,9 +102,9 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
               <div>
                 <select
                   className={`${field} rounded-lg`}
-                  value={assignee}
+                  value={formData.assignee}
                   onChange={(e) => {
-                    setAssignee(e.target.value);
+                    setFormData({ ...formData, assignee: e.target.value });
                     clearError("assignee");
                   }}
                 >
@@ -134,9 +122,9 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
               <div>
                 <input
                   type="date"
-                  value={dueDate}
+                  value={formData.dueDate}
                   onChange={(e) => {
-                    setDueDate(e.target.value);
+                    setFormData({ ...formData, dueDate: e.target.value });
                     clearError("dueDate");
                   }}
                   className={`${field} rounded-lg`}
@@ -153,9 +141,9 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
                 <StatusOptions
                   className={`rounded-lg ${field}`}
                   variant="dropdown"
-                  value={status}
+                  value={formData.status}
                   onChange={(e) => {
-                    setStatus(e.target.value);
+                    setFormData({ ...formData, status: e.target.value });
                     clearError("status");
                   }}
                 />
@@ -169,9 +157,9 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
                 <PriorityOptions
                   variant="dropdown"
                   className={`rounded-lg py-2 ${field}`}
-                  value={priority}
+                  value={formData.priority}
                   onChange={(e) => {
-                    setPriority(e.target.value);
+                    setFormData({ ...formData, priority: e.target.value });
                     clearError("priority");
                   }}
                 />
@@ -184,9 +172,9 @@ const TaskModal = ({ mode, className, bgColor, task }) => {
             </div>
             <div>
               <input
-                value={tags}
+                value={formData.tags}
                 onChange={(e) => {
-                  setTags(e.target.value);
+                  setFormData({ ...formData, tags: e.target.value });
                   clearError("tags");
                 }}
                 className={`rounded-lg ${field}`}

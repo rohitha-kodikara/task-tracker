@@ -9,11 +9,7 @@ const BulkActionBar = () => {
     <div className="glass flex flex-wrap items-center justify-between gap-2 rounded-xl bg-gradient-to-r bg-blue-900 px-4 py-2.5 text-sm text-white">
       <span className="font-medium">1 selected</span>
       <div className="flex items-center gap-2">
-        <StatusOptions
-          variant="dropdown"
-          feature="bulk-action-bar"
-          defaultValue=""
-        />
+        <StatusOptions variant="dropdown" feature="bulk-action-bar" />
         <TaskArchive className="flex items-center gap-1 rounded-lg bg-white/15 px-3 py-1 hover:bg-white/25 ">
           Archive
         </TaskArchive>

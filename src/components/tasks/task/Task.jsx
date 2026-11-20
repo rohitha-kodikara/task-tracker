@@ -10,15 +10,22 @@ import SubTasks from "./subtasks/SubTasks";
 import { useState } from "react";
 import SubTaskExpander from "./SubTaskExpander";
 
+import useTasks from "../../taskcontext/useTasks";
+
 const Task = ({ task }) => {
   const [subTasksOpen, setSubTasksOpen] = useState(false);
+  const { formData, setFormData } = useTasks({ task, mode: "edit" });
 
+  console.log(formData);
   function handleSubtasksExpanderClick(taskId) {
     const isIdMatch = task.id === taskId;
     if (isIdMatch) {
       setSubTasksOpen((prev) => !prev);
     }
   }
+
+  //updating task status from StatusOptions dropdown
+
   return (
     <>
       <input
@@ -35,9 +42,13 @@ const Task = ({ task }) => {
 
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <StatusOption
+            value={task.status}
+            onChange={(e) => {
+              setFormData({ ...formData, status: e.target.value });
+            }}
             variant="dropdown"
-            defaultValue={task.status || "In Progress"}
             className="rounded-xl"
+            task={task}
           />
 
           <PriorityOptions
