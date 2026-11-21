@@ -1,19 +1,16 @@
-import { stats } from "../data/data";
 import Statistic from "./Statistic";
 
-const StatisticsList = () => {
+const StatisticsList = ({ stats, statisticValues }) => {
   return (
     <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-      {stats.map(({ label, value, Icon, tint, icon }) => (
+      {stats.map(({ valueKey, ...statistic }) => (
         <Statistic
-          key={label}
-          label={label}
-          value={value}
-          Icon={Icon}
-          tint={tint}
-          icon={icon}
+          key={statistic.label}
+          {...statistic}
+          value={statisticValues[valueKey] ?? 0}
         />
       ))}
+      s
     </div>
   );
 };

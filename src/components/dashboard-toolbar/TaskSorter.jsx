@@ -1,4 +1,3 @@
-import { ArrowUpDown } from "lucide-react";
 import { taskSortOptions } from "../../data/data";
 
 const TaskSorter = ({ taskSort, updateSearchParams }) => {
@@ -15,10 +14,6 @@ const TaskSorter = ({ taskSort, updateSearchParams }) => {
           </option>
         ))}
       </select>
-      <button className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
-        <ArrowUpDown className="h-4 w-4" />
-        DESC
-      </button>
     </>
   );
 };

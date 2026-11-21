@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
-const TaskDeleteDialog = ({ children, className }) => {
+const TaskDeleteDialog = ({ children, className, onConfirm }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger
@@ -37,7 +37,10 @@ const TaskDeleteDialog = ({ children, className }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-rose-500 hover:bg-red-600 hover:text-white">
+          <AlertDialogAction
+            onClick={onConfirm}
+            className="bg-rose-500 hover:bg-red-600 hover:text-white"
+          >
             Yes, delete It!
           </AlertDialogAction>
         </AlertDialogFooter>

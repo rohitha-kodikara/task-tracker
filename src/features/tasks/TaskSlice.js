@@ -135,6 +135,23 @@ const bulkTaskSlice = createSlice({
         state.archivedTasks = state.archivedTasks.filter((id) => id !== taskId);
       }
     },
+    //Delete Task
+    deleteTask(state, { payload }) {
+      const { taskId } = payload;
+      const targetTask = state.tasks.find((item) => item.id === taskId);
+
+      if (!targetTask) {
+        return;
+      }
+      if (targetTask.archived) {
+        state.archivedTasks = state.archivedTasks.filter((id) => id !== taskId);
+      }
+      if (targetTask.starred) {
+        state.starredTasks = state.starredTasks.filter((id) => id !== taskId);
+      }
+
+      state.tasks = state.tasks.filter((item) => item.id !== taskId);
+    },
   },
 });
 
@@ -145,5 +162,6 @@ export const {
   updateTaskPriority,
   insertTaskAsStarred,
   insertTaskAsArchived,
+  deleteTask,
 } = bulkTaskSlice.actions;
 export default bulkTaskSlice.reducer;

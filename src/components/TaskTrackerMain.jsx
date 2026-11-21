@@ -4,11 +4,12 @@ import StatisticsList from "../components/StatisticsList";
 import TaskTrackerToolbar from "../components/dashboard-toolbar/TaskTrackerToolbar";
 
 import TaskList from "../components/tasks/TaskList";
-import TaskSelectionHeader from "../components/TaskSelectionHeader";
 import { useSelector } from "react-redux";
+import {} from "lucide-react";
 
 import { TaskProvider } from "./taskcontext/TaskProvider";
 import { useSearchParams } from "react-router-dom";
+import { stats } from "../data/data";
 
 const TaskTrackerMain = () => {
   const tasks = useSelector((state) => state.bulkTasks.tasks);
@@ -100,6 +101,31 @@ const TaskTrackerMain = () => {
     setSearchParams({});
   }
 
+  const TodoCount = sortedTasks.filter(
+    (task) => task.status === "To Do",
+  ).length;
+  const InProgressCount = sortedTasks.filter(
+    (task) => task.status === "In Progress",
+  ).length;
+  const DoneCount = sortedTasks.filter((task) => task.status === "Done").length;
+  const OverDueCount = sortedTasks.reduce((count, task) => {
+    if (
+      task.dueDate &&
+      new Date(task.dueDate) < new Date() &&
+      task.status !== "Done"
+    ) {
+      return count + 1;
+    }
+    return count;
+  }, 0);
+
+  const statisticValues = {
+    Todo: TodoCount,
+    InProgress: InProgressCount,
+    Done: DoneCount,
+    Overdue: OverDueCount,
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-slate-900">
       <div className="pointer-events-none absolute -left-32 -top-40 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
@@ -109,7 +135,7 @@ const TaskTrackerMain = () => {
           {/* Header */}
           <Header />
           {/* Stat cards */}
-          <StatisticsList />
+          <StatisticsList stats={stats} statisticValues={statisticValues} />
 
           {/* Toolbar: search, assignee, sort, filter chips */}
           <TaskTrackerToolbar
@@ -123,9 +149,6 @@ const TaskTrackerMain = () => {
             resetFilters={resetFilters}
             updateSearchParams={updateSearchParams}
           />
-
-          {/* Select all */}
-          <TaskSelectionHeader tasks={tasks} />
 
           {/* Task list */}
           <TaskList tasks={sortedTasks} />

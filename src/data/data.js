@@ -3,28 +3,28 @@ import { ListTodo, Loader, CheckCircle2, AlarmClock } from "lucide-react";
 const stats = [
   {
     label: "To Do",
-    value: 5,
+    valueKey: "Todo",
     Icon: ListTodo,
     tint: "from-slate-100/90 via-white/75 to-slate-50/60",
     icon: "bg-slate-100/80 text-slate-600 ring-1 ring-slate-200/70",
   },
   {
     label: "In Progress",
-    value: 3,
+    valueKey: "InProgress",
     Icon: Loader,
     tint: "from-sky-100/90 via-white/75 to-blue-50/60",
     icon: "bg-sky-100/80 text-sky-700 ring-1 ring-sky-200/70",
   },
   {
     label: "Done",
-    value: 4,
+    valueKey: "Done",
     Icon: CheckCircle2,
     tint: "from-emerald-100/90 via-white/75 to-emerald-50/60",
     icon: "bg-emerald-100/80 text-emerald-700 ring-1 ring-emerald-200/70",
   },
   {
     label: "Overdue",
-    value: 2,
+    valueKey: "Overdue",
     Icon: AlarmClock,
     tint: "from-rose-100/90 via-white/75 to-rose-50/60",
     icon: "bg-rose-100/80 text-rose-700 ring-1 ring-rose-200/70",
@@ -165,8 +165,6 @@ const priorityFilters = [
 //   },
 // ];
 
-export { stats, statusFilters, priorityFilters };
-
 export const taskSortOptions = [
   { value: "all", label: "All" },
   { value: "lastUpdated", label: "Last updated" },
@@ -174,3 +172,5 @@ export const taskSortOptions = [
   { value: "priority", label: "Priority" },
   { value: "title", label: "Title" },
 ];
+
+export { statusFilters, priorityFilters, stats };

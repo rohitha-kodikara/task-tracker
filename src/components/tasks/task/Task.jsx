@@ -41,12 +41,6 @@ const Task = ({ task }) => {
 
   return (
     <>
-      <input
-        type="checkbox"
-        defaultChecked={task.selected}
-        className="mt-1.5 h-4 w-4 rounded border-slate-300 accent-indigo-600"
-      />
-
       <div className="min-w-0 flex-1 space-y-2.5">
         <div className="flex items-start justify-between gap-2">
           <TaskDescription task={task} />
