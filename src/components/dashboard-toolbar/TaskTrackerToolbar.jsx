@@ -14,6 +14,9 @@ const TaskTrackerToolbar = ({
   assignee,
   status,
   priority,
+  starred,
+  archived,
+  taskSort,
 }) => {
   return (
     <div className="glass space-y-4 rounded-2xl bg-gradient-to-br from-white/60 via-white/45 to-slate-100/40 p-4">
@@ -26,7 +29,10 @@ const TaskTrackerToolbar = ({
           assignee={assignee}
           updateSearchParams={updateSearchParams}
         />
-        <TaskSorter />
+        <TaskSorter
+          taskSort={taskSort}
+          updateSearchParams={updateSearchParams}
+        />
       </div>
 
       <div className="flex flex-wrap items-center gap-2 text-xs font-medium">
@@ -62,11 +68,20 @@ const TaskTrackerToolbar = ({
           <TaskStarred
             variant="pill"
             label="Starred"
+            starred={starred}
+            onClick={() =>
+              updateSearchParams("starred", starred ? null : "true")
+            }
             // onClick={() => setFilter("starred")}
           />
-          <TaskArchive className="flex items-center gap-1 rounded-xl bg-white border-blue-800 border-1 text-blue-900 px-3 py-1 hover:bg-white/25 ">
-            Archive
-          </TaskArchive>
+          <TaskArchive
+            variant="pill"
+            label="Archive"
+            archived={archived}
+            onClick={() =>
+              updateSearchParams("archived", archived ? null : "true")
+            }
+          />
         </div>
         <Reset />
       </div>

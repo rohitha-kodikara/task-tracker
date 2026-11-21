@@ -166,3 +166,10 @@ const priorityFilters = [
 // ];
 
 export { stats, statusFilters, priorityFilters };
+
+export const taskSortOptions = [
+  { value: "lastUpdated", label: "Last updated" },
+  { value: "dueDate", label: "Due date" },
+  { value: "priority", label: "Priority" },
+  { value: "title", label: "Title" },
+];

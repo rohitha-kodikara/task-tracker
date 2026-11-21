@@ -2,7 +2,6 @@
 import Header from "../components/Header";
 import StatisticsList from "../components/StatisticsList";
 import TaskTrackerToolbar from "../components/dashboard-toolbar/TaskTrackerToolbar";
-import BulkActionBar from "../components/bulk-action-bar/BulkActionBar";
 
 import TaskList from "../components/tasks/TaskList";
 import TaskSelectionHeader from "../components/TaskSelectionHeader";
@@ -14,11 +13,17 @@ import { useSearchParams } from "react-router-dom";
 const TaskTrackerMain = () => {
   const tasks = useSelector((state) => state.bulkTasks.tasks);
   const [searchParams, setSearchParams] = useSearchParams();
+  //getting filtered starred tasks
+  const starredTaskIds = useSelector((state) => state.bulkTasks.starredTasks);
+  const archivedTaskIds = useSelector((state) => state.bulkTasks.archivedTasks);
 
   const searchTask = searchParams.get("search") || "";
   const assignee = searchParams.get("assignee") || "all";
   const status = searchParams.get("status") || "all";
   const priority = searchParams.get("priority") || "all";
+  const starred = searchParams.get("starred") === "true";
+  const archived = searchParams.get("archived") === "true";
+  const taskSort = searchParams.get("sort") || "lastUpdated";
 
   function updateSearchParams(key, value) {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -31,7 +36,7 @@ const TaskTrackerMain = () => {
 
     setSearchParams(newSearchParams);
   }
-
+  //filtering tasks
   const filteredTasks = tasks.filter((task) => {
     const query = searchTask.toLowerCase();
 
@@ -58,10 +63,35 @@ const TaskTrackerMain = () => {
       normalizedPriority === "all" ||
       task.priority?.toLowerCase() === normalizedPriority;
 
-    return matchSearches && matchAssignee && matchStatus && matchPriority;
+    //adding starred filter to the task list
+    const matchStarred = !starred || starredTaskIds.includes(task.id);
+    //adding archived filter to the task list
+    const matchArchived = !archived || archivedTaskIds.includes(task.id);
+
+    return (
+      matchSearches &&
+      matchAssignee &&
+      matchStatus &&
+      matchPriority &&
+      matchStarred &&
+      matchArchived
+    );
   });
 
-  console.log(filteredTasks);
+  const sortedTasks = filteredTasks.slice().sort((a, b) => {
+    if (taskSort === "lastUpdated") {
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
+    } else if (taskSort === "dueDate") {
+      return new Date(a.dueDate) - new Date(b.dueDate);
+    } else if (taskSort === "priority") {
+      const priorityRank = { Urgent: 1, High: 2, Medium: 3, Low: 4 };
+      return priorityRank[a.priority] - priorityRank[b.priority];
+    } else if (taskSort === "title") {
+      return a.title.localeCompare(b.title);
+    }
+    return 0;
+  });
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-slate-900">
       <div className="pointer-events-none absolute -left-32 -top-40 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
@@ -79,17 +109,17 @@ const TaskTrackerMain = () => {
             assignee={assignee}
             status={status}
             priority={priority}
+            starred={starred}
+            archived={archived}
+            taskSort={taskSort}
             updateSearchParams={updateSearchParams}
           />
-
-          {/* Bulk action bar */}
-          <BulkActionBar />
 
           {/* Select all */}
           <TaskSelectionHeader tasks={tasks} />
 
           {/* Task list */}
-          <TaskList tasks={filteredTasks} />
+          <TaskList tasks={sortedTasks} />
         </TaskProvider>
       </div>
     </div>

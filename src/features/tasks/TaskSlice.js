@@ -93,9 +93,57 @@ const bulkTaskSlice = createSlice({
       task.priority = priority;
       task.updatedAt = new Date().toISOString();
     },
+
+    //insert taskId into starred array
+    insertTaskAsStarred(state, { payload }) {
+      const { taskId } = payload;
+      const task = state.tasks.find((item) => item.id === taskId);
+
+      if (!task) {
+        return;
+      }
+
+      task.starred = !task.starred;
+      task.updatedAt = new Date().toISOString();
+
+      if (task.starred) {
+        if (!state.starredTasks.includes(taskId)) {
+          state.starredTasks.push(taskId);
+        }
+      } else {
+        state.starredTasks = state.starredTasks.filter((id) => id !== taskId);
+      }
+    },
+
+    //insert taskIds into Archived array. that means hide the specified tasks from the main list.
+    insertTaskAsArchived(state, { payload }) {
+      const { taskId } = payload;
+      const targetTask = state.tasks.find((item) => item.id === taskId);
+
+      if (!targetTask) {
+        return;
+      }
+
+      targetTask.archived = !targetTask.archived;
+      targetTask.updatedAt = new Date().toISOString();
+
+      if (targetTask.archived) {
+        if (!state.archivedTasks.includes(taskId)) {
+          state.archivedTasks.push(taskId);
+        }
+      } else {
+        state.archivedTasks = state.archivedTasks.filter((id) => id !== taskId);
+      }
+    },
   },
 });
 
-export const { addTask, updateTask, updateTaskStatus, updateTaskPriority } =
-  bulkTaskSlice.actions;
+export const {
+  addTask,
+  updateTask,
+  updateTaskStatus,
+  updateTaskPriority,
+  insertTaskAsStarred,
+  insertTaskAsArchived,
+} = bulkTaskSlice.actions;
 export default bulkTaskSlice.reducer;

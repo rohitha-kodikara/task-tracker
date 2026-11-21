@@ -12,6 +12,8 @@ import SubTaskExpander from "./SubTaskExpander";
 
 import { useDispatch } from "react-redux";
 import {
+  insertTaskAsArchived,
+  insertTaskAsStarred,
   updateTaskPriority,
   updateTaskStatus,
 } from "@/features/tasks/TaskSlice";
@@ -27,7 +29,15 @@ const Task = ({ task }) => {
     }
   }
 
-  //updating task status from StatusOptions dropdown
+  // Toggle task as starred
+  function handleStarredClick(taskId) {
+    dispatch(insertTaskAsStarred({ taskId }));
+  }
+
+  // Toggle task as archived
+  function handleArchivedClick(taskId) {
+    dispatch(insertTaskAsArchived({ taskId }));
+  }
 
   return (
     <>
@@ -40,7 +50,11 @@ const Task = ({ task }) => {
       <div className="min-w-0 flex-1 space-y-2.5">
         <div className="flex items-start justify-between gap-2">
           <TaskDescription task={task} />
-          <TaskToolbar task={task} />
+          <TaskToolbar
+            task={task}
+            handleStarredClick={handleStarredClick}
+            handleArchivedClick={handleArchivedClick}
+          />
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs">
