@@ -17,7 +17,7 @@ const TaskTrackerToolbar = ({ searchTask, updateSearchParams, assignee }) => {
           updateSearchParams={updateSearchParams}
         />
         <AssigneeFilter
-          value={assignee}
+          assignee={assignee}
           updateSearchParams={updateSearchParams}
         />
         <TaskSorter />

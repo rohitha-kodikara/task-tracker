@@ -19,7 +19,7 @@ import {
 
 const Task = ({ task }) => {
   const [subTasksOpen, setSubTasksOpen] = useState(false);
-  const { formData, setFormData } = useTasks({ task, mode: "edit" });
+
   const dispatch = useDispatch();
   function handleSubtasksExpanderClick(taskId) {
     const isIdMatch = task.id === taskId;
