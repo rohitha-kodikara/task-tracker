@@ -30,8 +30,20 @@ const StatusOptions = ({
 
   return (
     <div className={`${className} flex gap-2`}>
+      <StatusChip
+        label="All"
+        idle="bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+        on="bg-slate-700 text-white border-slate-700 shadow-sm"
+        isSelected={value === "all"}
+        onClick={() => onChange({ target: { value: "all" } })}
+      />
       {statusFilters.map((status) => (
-        <StatusChip key={status.label} {...status} />
+        <StatusChip
+          key={status.label}
+          {...status}
+          isSelected={value === status.label}
+          onClick={() => onChange({ target: { value: status.label } })}
+        />
       ))}
     </div>
   );

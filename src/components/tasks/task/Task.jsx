@@ -10,7 +10,6 @@ import SubTasks from "./subtasks/SubTasks";
 import { useState } from "react";
 import SubTaskExpander from "./SubTaskExpander";
 
-import useTasks from "../../taskcontext/useTasks";
 import { useDispatch } from "react-redux";
 import {
   updateTaskPriority,

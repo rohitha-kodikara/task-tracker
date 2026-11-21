@@ -24,8 +24,21 @@ const PriorityOptions = ({ variant, className, value, onChange }) => {
 
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className}`}>
+      <PriorityChip
+        label="All"
+        idle="bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+        on="bg-slate-700 text-white border-slate-700 shadow-sm"
+        isSelected={value === "all"}
+        onClick={() => onChange({ target: { value: "all" } })}
+      />
+
       {priorityFilters.map((filter) => (
-        <PriorityChip key={filter.label} {...filter} />
+        <PriorityChip
+          priority={filter.label}
+          onClick={() => onChange({ target: { value: filter.label } })}
+          key={filter.label}
+          {...filter}
+        />
       ))}
     </div>
   );

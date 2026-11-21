@@ -17,6 +17,8 @@ const TaskTrackerMain = () => {
 
   const searchTask = searchParams.get("search") || "";
   const assignee = searchParams.get("assignee") || "all";
+  const status = searchParams.get("status") || "all";
+  const priority = searchParams.get("priority") || "all";
 
   function updateSearchParams(key, value) {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -44,7 +46,19 @@ const TaskTrackerMain = () => {
       normalizedAssignee === "all" ||
       task.assignee?.toLowerCase() === normalizedAssignee;
 
-    return matchSearches && matchAssignee;
+    const normalizedStatus = status.toLowerCase();
+
+    const matchStatus =
+      normalizedStatus === "all" ||
+      task.status?.toLowerCase() === normalizedStatus;
+
+    const normalizedPriority = priority.toLowerCase();
+
+    const matchPriority =
+      normalizedPriority === "all" ||
+      task.priority?.toLowerCase() === normalizedPriority;
+
+    return matchSearches && matchAssignee && matchStatus && matchPriority;
   });
 
   console.log(filteredTasks);
@@ -63,6 +77,8 @@ const TaskTrackerMain = () => {
           <TaskTrackerToolbar
             searchTask={searchTask}
             assignee={assignee}
+            status={status}
+            priority={priority}
             updateSearchParams={updateSearchParams}
           />
 
