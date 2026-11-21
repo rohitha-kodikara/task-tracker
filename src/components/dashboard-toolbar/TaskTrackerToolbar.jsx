@@ -17,6 +17,7 @@ const TaskTrackerToolbar = ({
   starred,
   archived,
   taskSort,
+  resetFilters,
 }) => {
   return (
     <div className="glass space-y-4 rounded-2xl bg-gradient-to-br from-white/60 via-white/45 to-slate-100/40 p-4">
@@ -83,7 +84,7 @@ const TaskTrackerToolbar = ({
             }
           />
         </div>
-        <Reset />
+        <Reset onClick={resetFilters} />
       </div>
     </div>
   );

@@ -23,7 +23,7 @@ const TaskTrackerMain = () => {
   const priority = searchParams.get("priority") || "all";
   const starred = searchParams.get("starred") === "true";
   const archived = searchParams.get("archived") === "true";
-  const taskSort = searchParams.get("sort") || "lastUpdated";
+  const taskSort = searchParams.get("sort") || "all";
 
   function updateSearchParams(key, value) {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -78,19 +78,27 @@ const TaskTrackerMain = () => {
     );
   });
 
-  const sortedTasks = filteredTasks.slice().sort((a, b) => {
-    if (taskSort === "lastUpdated") {
-      return new Date(b.updatedAt) - new Date(a.updatedAt);
-    } else if (taskSort === "dueDate") {
-      return new Date(a.dueDate) - new Date(b.dueDate);
-    } else if (taskSort === "priority") {
-      const priorityRank = { Urgent: 1, High: 2, Medium: 3, Low: 4 };
-      return priorityRank[a.priority] - priorityRank[b.priority];
-    } else if (taskSort === "title") {
-      return a.title.localeCompare(b.title);
-    }
-    return 0;
-  });
+  const sortedTasks =
+    taskSort === "all"
+      ? filteredTasks
+      : filteredTasks.slice().sort((a, b) => {
+          if (taskSort === "lastUpdated") {
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+          } else if (taskSort === "dueDate") {
+            return new Date(a.dueDate) - new Date(b.dueDate);
+          } else if (taskSort === "priority") {
+            const priorityRank = { Urgent: 1, High: 2, Medium: 3, Low: 4 };
+            return priorityRank[a.priority] - priorityRank[b.priority];
+          } else if (taskSort === "title") {
+            return a.title.localeCompare(b.title);
+          }
+          return 0;
+        });
+
+  //Reset All filters
+  function resetFilters() {
+    setSearchParams({});
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-slate-900">
@@ -112,6 +120,7 @@ const TaskTrackerMain = () => {
             starred={starred}
             archived={archived}
             taskSort={taskSort}
+            resetFilters={resetFilters}
             updateSearchParams={updateSearchParams}
           />
 
